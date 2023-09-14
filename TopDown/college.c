@@ -96,6 +96,7 @@ void parseCourseList() {
 
 // Function to parse the input
 int parseInput(const char* filename) {
+    extern FILE* yyin;
     yyin = fopen(filename, "r");
     if (!yyin) {
         fprintf(stderr, "Error opening input file\n");
