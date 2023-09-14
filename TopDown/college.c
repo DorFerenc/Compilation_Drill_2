@@ -3,18 +3,8 @@
 #include <string.h>
 #include "college.h"
 
-extern enum token yylex(void);
-int lookahead;
-
-// Structure for course information
-struct CourseInfo {
-    int num;
-    char name[100];
-    double credits;
-    char degree[6];
-    char school[100];
-    char elective[10];
-};
+TokenInfo yylval; // Global variable to store semantic values
+int line = 1;     // Global variable to track the line number
 
 // Function to print an error message
 void yyerror(const char* s) {
@@ -26,21 +16,20 @@ void skipWhiteSpace() {
     int c;
     while ((c = getchar()) == ' ' || c == '\t' || c == '\r' || c == '\n') {
         if (c == '\n') {
-            yylineno++;
+            line++;
         }
     }
     ungetc(c, stdin);
 }
 
 // Function to parse a course
-struct CourseInfo parseCourse() {
-    struct CourseInfo course;
-    memset(&course, 0, sizeof(struct CourseInfo));
+void parseCourse() {
+    printf("COURSES\t\t\t%s\n", yytext);
 
     // Parse course number
     skipWhiteSpace();
     if (yylex() == NUM) {
-        course.num = lexicalValue.num;
+        printf("NUM\t\t\t%d\n", yylval.num);
     } else {
         yyerror("Expected course number.");
         exit(1);
@@ -49,7 +38,7 @@ struct CourseInfo parseCourse() {
     // Parse course name
     skipWhiteSpace();
     if (yylex() == NAME) {
-        strcpy(course.name, lexicalValue.name);
+        printf("NAME\t\t\t%s\n", yylval.name);
     } else {
         yyerror("Expected course name.");
         exit(1);
@@ -58,7 +47,7 @@ struct CourseInfo parseCourse() {
     // Parse course credits
     skipWhiteSpace();
     if (yylex() == CREDITS) {
-        course.credits = lexicalValue.credits;
+        printf("CREDITS\t\t\t%.1f\n", yylval.credits);
     } else {
         yyerror("Expected course credits.");
         exit(1);
@@ -67,7 +56,7 @@ struct CourseInfo parseCourse() {
     // Parse course degree
     skipWhiteSpace();
     if (yylex() == DEGREE) {
-        strcpy(course.degree, lexicalValue.degree);
+        printf("DEGREE\t\t\t%s\n", yylval.degree);
     } else {
         yyerror("Expected course degree.");
         exit(1);
@@ -76,7 +65,7 @@ struct CourseInfo parseCourse() {
     // Parse course school
     skipWhiteSpace();
     if (yylex() == SCHOOL) {
-        strcpy(course.school, lexicalValue.school);
+        printf("SCHOOL\t\t\t%s\n", yylval.school);
     } else {
         yyerror("Expected course school.");
         exit(1);
@@ -85,13 +74,41 @@ struct CourseInfo parseCourse() {
     // Parse course elective
     skipWhiteSpace();
     if (yylex() == ELECT) {
-        strcpy(course.elective, yytext);
+        printf("ELECT\t\t\t%s\n", yytext);
     }
 
     // Skip any remaining white space
     skipWhiteSpace();
+}
 
-    return course;
+// Function to parse a list of courses
+void parseCourseList() {
+    while (1) {
+        skipWhiteSpace();
+        int token = yylex();
+        if (token == COURSES) {
+            parseCourse();
+        } else {
+            break; // End of course list
+        }
+    }
+}
+
+// Function to parse the input
+int parseInput(const char* filename) {
+    yyin = fopen(filename, "r");
+    if (!yyin) {
+        fprintf(stderr, "Error opening input file\n");
+        return 1;
+    }
+
+    printf("TOKEN\t\t\tLEXEME\t\t\tSEMANTIC VALUE\n");
+    printf("---------------------------------------------------------------\n");
+
+    parseCourseList();
+
+    fclose(yyin);
+    return 0;
 }
 
 int main(int argc, char** argv) {
@@ -100,31 +117,11 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    yyin = fopen(argv[1], "r");
-    if (!yyin) {
-        fprintf(stderr, "Error opening input file\n");
-        return 2;
+    if (parseInput(argv[1]) == 0) {
+        printf("Parsing completed successfully.\n");
+        return 0;
+    } else {
+        fprintf(stderr, "Parsing failed.\n");
+        return 1;
     }
-
-    printf("TOKEN\t\t\tLEXEME\t\t\tSEMANTIC VALUE\n");
-    printf("---------------------------------------------------------------\n");
-
-    struct CourseInfo course;
-    while ((lookahead = yylex()) != 0) {
-        if (lookahead == COURSES) {
-            course = parseCourse();
-            printf("COURSES\t\t\t%s\n", course.name);
-            printf("NUM\t\t\t%d\n", course.num);
-            printf("NAME\t\t\t%s\n", course.name);
-            printf("CREDITS\t\t\t%.1f\n", course.credits);
-            printf("DEGREE\t\t\t%s\n", course.degree);
-            printf("SCHOOL\t\t\t%s\n", course.school);
-            if (strlen(course.elective) > 0) {
-                printf("ELECT\t\t\t%s\n", course.elective);
-            }
-        }
-    }
-
-    fclose(yyin);
-    return 0;
 }
