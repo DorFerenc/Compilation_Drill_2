@@ -3,8 +3,44 @@
 #include <string.h>
 #include "college.h"
 
-TokenInfo yylval; // Global variable to store semantic values
-int line = 1;     // Global variable to track the line number
+extern enum token yylex(void);
+int lookahead;
+
+void match(int expectedToken)
+{
+    if (lookahead == expectedToken)
+        lookahead = yylex();
+    else {
+        char e[100]; /* todo: error message should mention name of token
+                   (not its number) */
+        sprintf(e, "error: expected token %s, found token %s",
+            token_name(expectedToken), token_name(lookahead));
+        errorMsg(e);
+        exit(1);
+    }
+}
+
+void start()
+{
+    match(COURSES);
+    struct am_pm ap = list_of_flights();
+    if (ap.am > ap.pm)
+        printf("There were more flights before noon.\n");
+    else if (ap.am < ap.pm)
+        printf("There were more flights after noon.\n");
+}
+
+
+void parse()
+{
+    lookahead = yylex();
+    start();
+    if (lookahead != 0) {  // 0 means EOF
+        errorMsg("EOF expected");
+        exit(1);
+    }
+}
+
 
 // Function to print an error message
 void yyerror(const char* s) {

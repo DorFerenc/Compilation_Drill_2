@@ -14,11 +14,11 @@ enum token {
 
 char* token_name(enum token token);
 
-union _lexVal {
-    int elective;
+union _lexVal { // what we want to extract using lex
+    int is_elective;
     double credits_of_elective_courses;
-    char * course_names_of_3e[100];
-    char * school_names_of_3e[100];
+    // char * course_names_of_3e[100];
+    // char * school_names_of_3e[100];
 };
 
 
