@@ -14,6 +14,13 @@ struct elctiveData {
     char * school_names_of_3e[100];
 };
 
+extern union _lexVal lexicalValue;
+
+void match(int expectedToken);
+void start();
+void parse();
+struct electiveData course_list();
+struct electiveData course();
 
 void match(int expectedToken)
 {
@@ -32,7 +39,7 @@ void match(int expectedToken)
 void start()
 {
     match(COURSES);
-    struct elctiveData eD = course_list();
+    struct elctiveData eD = course_list(); // TODO malloc
     printf("There are %d elective courses", eD.sum_elective_courses);
     printf("The total number of credits of the elective courses is %.2f", eD.totalCredits);
     printf("The elective courses with 3 credits or more are:");
