@@ -6,7 +6,7 @@
 extern enum token yylex(void);
 int lookahead;
 
-struct elctiveData {
+struct electiveData {
     int sum_elective_courses;
     double totalCredits;
     int arr_length;
@@ -39,7 +39,7 @@ void match(int expectedToken)
 void start()
 {
     match(COURSES);
-    struct elctiveData eD = course_list(); // TODO malloc
+    struct electiveData eD = course_list(); // TODO malloc
     printf("There are %d elective courses", eD.sum_elective_courses);
     printf("The total number of credits of the elective courses is %.2f", eD.totalCredits);
     printf("The elective courses with 3 credits or more are:");
@@ -64,22 +64,22 @@ void parse()
 
 struct electiveData course_list()
 {
-    struct electiveData finalED = { 0, 0.0, 0, NULL, NULL };
+    struct electiveData finalED = { 0, 0.0, 0, {0}, {0} };  // Initialize arrays to 0
     while (lookahead == NUM) // while there is another couse number
     {
         struct electiveData tempED = course();
         finalED.sum_elective_courses += tempED.sum_elective_courses;
         finalED.totalCredits += tempED.totalCredits;
         finalED.arr_length += tempED.arr_length;
-        finalED.course_names_of_3e[finalED.arr_length] += course_names_of_3e[tempED.arr_length]; //TODO malloc
-        finalED.school_names_of_3e[finalED.arr_length] += tempED.school_names_of_3e[tempED.arr_length]; //TODO malloc
+        finalED.course_names_of_3e[finalED.arr_length] = course_names_of_3e[0]; //TODO malloc
+        finalED.school_names_of_3e[finalED.arr_length] = tempED.school_names_of_3e[0]; //TODO malloc
     }
     return finalED;
 }
 
 struct electiveData course()
 {
-    struct electiveData insideED = { 0, 0.0, 0, NULL, NULL };
+    struct electiveData insideED = { 0, 0.0, 0, {0}, {0} };
 
     if (lookahead == NUM)
         match(NUM);
@@ -87,7 +87,7 @@ struct electiveData course()
     if (lookahead == NAME)
     {
         if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
-            insideED.course_names_of_3e[0] = lexicalValue.name; //TODO malloc
+            insideED.course_names_of_3e[0] = strdup(lexicalValue.name); // Use strdup to allocate memory
         match(NAME);
     }
 
@@ -104,7 +104,8 @@ struct electiveData course()
     if (lookahead == SCHOOL)
     {
         if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
-            insideED.school_names_of_3e[0] = lexicalValue.school; //TODO malloc
+            insideED.school_names_of_3e[0] = strdup(lexicalValue.school); // Use strdup to allocate memory
+
         match(SCHOOL);
     }
 
