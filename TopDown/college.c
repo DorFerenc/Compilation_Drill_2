@@ -21,6 +21,7 @@ void start();
 void parse();
 struct electiveData course_list();
 struct electiveData course();
+int elective();
 
 void match(int expectedToken)
 {
@@ -71,8 +72,10 @@ struct electiveData course_list()
         finalED.sum_elective_courses += tempED.sum_elective_courses;
         finalED.totalCredits += tempED.totalCredits;
         finalED.arr_length += tempED.arr_length;
-        finalED.course_names_of_3e[finalED.arr_length] = course_names_of_3e[0]; //TODO malloc
-        finalED.school_names_of_3e[finalED.arr_length] = tempED.school_names_of_3e[0]; //TODO malloc
+        if(tempED.arr_length > 0) {
+            finalED.course_names_of_3e[finalED.arr_length] = tempED.course_names_of_3e[0]; //TODO malloc
+            finalED.school_names_of_3e[finalED.arr_length] = tempED.school_names_of_3e[0]; //TODO malloc
+        }
     }
     return finalED;
 }

@@ -532,6 +532,7 @@ char *yytext;
 #line 2 "college.lex"
 #include <stdio.h>
 #include <string.h>
+#include "college.h"
 
 #define COURSES 300
 #define NUM 301
@@ -540,6 +541,8 @@ char *yytext;
 #define DEGREE 304
 #define SCHOOL 305
 #define ELECT 306
+
+union _lexVal lexicalValue; // semantic value of current token
 
 union {
     int num;
@@ -550,8 +553,8 @@ union {
 } yylval;
 
 int line = 1;
-#line 554 "lex.yy.c"
-#line 555 "lex.yy.c"
+#line 557 "lex.yy.c"
+#line 558 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -768,9 +771,9 @@ YY_DECL
 		}
 
 	{
-#line 27 "college.lex"
+#line 30 "college.lex"
 
-#line 774 "lex.yy.c"
+#line 777 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -839,62 +842,62 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "college.lex"
+#line 31 "college.lex"
 { return COURSES; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "college.lex"
+#line 32 "college.lex"
 { yylval.num = atoi(yytext); return NUM; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 30 "college.lex"
-{ strcpy(yylval.name, yytext); return NAME; }
+#line 33 "college.lex"
+{ strcpy(yylval.name, yytext); strcpy(lexicalValue.name, yytext); return NAME; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 31 "college.lex"
-{ yylval.credits = atof(yytext); return CREDITS; }
+#line 34 "college.lex"
+{ yylval.credits = atof(yytext); lexicalValue.credits_of_elective_courses = atof(yytext); return CREDITS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "college.lex"
+#line 35 "college.lex"
 { strcpy(yylval.degree, yytext); return DEGREE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 33 "college.lex"
-{ strcpy(yylval.school, yytext); return SCHOOL; }
+#line 36 "college.lex"
+{ strcpy(yylval.school, yytext); strcpy(lexicalValue.school, yytext); return SCHOOL; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 34 "college.lex"
-{ return ELECT; }
+#line 37 "college.lex"
+{ lexicalValue.is_elective = 1; return ELECT; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 35 "college.lex"
+#line 38 "college.lex"
 { /* skip white space */ }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 36 "college.lex"
+#line 39 "college.lex"
 { line += yyleng; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 37 "college.lex"
+#line 40 "college.lex"
 { fprintf(stderr, "***Error on line: %d, unrecognized token: %s\n", line, yytext); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "college.lex"
+#line 42 "college.lex"
 ECHO;
 	YY_BREAK
-#line 898 "lex.yy.c"
+#line 901 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1911,7 +1914,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 39 "college.lex"
+#line 42 "college.lex"
 
 
 int main(int argc, char **argv) {
