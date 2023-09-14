@@ -57,6 +57,38 @@ void parse()
 
 struct electiveData course_list()
 {
+    struct electiveData finalED = { 0, 0.0, 0, NULL, NULL };
+    while (lookahead == NUM) // while there is another couse number
+    {
+        struct electiveData tempED = course();
+        finalED.sum_elective_courses += tempED.sum_elective_courses;
+        finalED.totalCredits += tempED.totalCredits;
+        finalED.arr_length += tempED.arr_length;
+        finalED.course_names_of_3e[finalED.arr_length] += course_names_of_3e[tempED.arr_length]; //TODO malloc
+        finalED.school_names_of_3e[finalED.arr_length] += tempED.school_names_of_3e[tempED.arr_length]; //TODO malloc
+    }
+    return finalED;
+}
+
+struct electiveData course()
+{
+    //    int sum_elective_courses;
+    // double totalCredits;
+    // int arr_length;
+    // char * course_names_of_3e[100];
+    // char * school_names_of_3e[100];
+    struct electiveData insideED = { 0, 0.0, 0, NULL, NULL };
+
+    if (lookahead == NUM)
+        match(NUM);
+
+    if (lookahead == NAME)
+    {
+        if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
+            insideED.course_names_of_3e[0] = ;
+
+    }
+    
 
 }
 
