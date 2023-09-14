@@ -6,6 +6,15 @@
 extern enum token yylex(void);
 int lookahead;
 
+struct elctiveData {
+    int sum_elective_courses;
+    double totalCredits;
+    int arr_length;
+    char * course_names_of_3e[100];
+    char * school_names_of_3e[100];
+};
+
+
 void match(int expectedToken)
 {
     if (lookahead == expectedToken)
@@ -23,11 +32,16 @@ void match(int expectedToken)
 void start()
 {
     match(COURSES);
-    struct am_pm ap = list_of_flights();
-    if (ap.am > ap.pm)
-        printf("There were more flights before noon.\n");
-    else if (ap.am < ap.pm)
-        printf("There were more flights after noon.\n");
+    struct elctiveData eD = course_list();
+    printf("There are %d elective courses", eD.sum_elective_courses);
+    printf("The total number of credits of the elective courses is %.2f", eD.totalCredits);
+    printf("The elective courses with 3 credits or more are:");
+    printf("COURSE \t \t \t SCHOOL");
+    printf("----------------------------");
+    for (int i = 0; i < eD.arr_length; i++)
+    {
+        printf("%s \t \t \t %s", eD.course_names_of_3e[i], eD.school_names_of_3e[i]);
+    }
 }
 
 
@@ -39,6 +53,11 @@ void parse()
         errorMsg("EOF expected");
         exit(1);
     }
+}
+
+struct electiveData course_list()
+{
+
 }
 
 

@@ -24,4 +24,6 @@ union _lexVal { // what we want to extract using lex
 
 extern union _lexVal lexicalValue;
 
+struct electiveData course_list();
+
 void errorMsg(const char* s);
