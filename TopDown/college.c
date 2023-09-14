@@ -72,11 +72,6 @@ struct electiveData course_list()
 
 struct electiveData course()
 {
-    //    int sum_elective_courses;
-    // double totalCredits;
-    // int arr_length;
-    // char * course_names_of_3e[100];
-    // char * school_names_of_3e[100];
     struct electiveData insideED = { 0, 0.0, 0, NULL, NULL };
 
     if (lookahead == NUM)
@@ -85,131 +80,63 @@ struct electiveData course()
     if (lookahead == NAME)
     {
         if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
-            insideED.course_names_of_3e[0] = ;
-
+            insideED.course_names_of_3e[0] = lexicalValue.name; //TODO malloc
+        match(NAME);
     }
+
+    if (lookahead == CREDITS)
+    {
+        if (lexicalValue.is_elective == 1)
+            insideED.totalCredits += lexicalValue.credits_of_elective_courses;
+        match(CREDITS);
+    }
+
+    if (lookahead == DEGREE)
+        match(DEGREE);
+
+    if (lookahead == SCHOOL)
+    {
+        if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
+            insideED.school_names_of_3e[0] = lexicalValue.school; //TODO malloc
+        match(SCHOOL);
+    }
+
+    int e = elective();
     
-
+    return insideED;
 }
 
-
-// Function to print an error message
-void yyerror(const char* s) {
-    fprintf(stderr, "***Error on line %d: %s\n", yylineno, s);
-}
-
-// Function to skip white space
-void skipWhiteSpace() {
-    int c;
-    while ((c = getchar()) == ' ' || c == '\t' || c == '\r' || c == '\n') {
-        if (c == '\n') {
-            line++;
-        }
-    }
-    ungetc(c, stdin);
-}
-
-// Function to parse a course
-void parseCourse() {
-    printf("COURSES\t\t\t%s\n", yytext);
-
-    // Parse course number
-    skipWhiteSpace();
-    if (yylex() == NUM) {
-        printf("NUM\t\t\t%d\n", yylval.num);
-    } else {
-        yyerror("Expected course number.");
-        exit(1);
-    }
-
-    // Parse course name
-    skipWhiteSpace();
-    if (yylex() == NAME) {
-        printf("NAME\t\t\t%s\n", yylval.name);
-    } else {
-        yyerror("Expected course name.");
-        exit(1);
-    }
-
-    // Parse course credits
-    skipWhiteSpace();
-    if (yylex() == CREDITS) {
-        printf("CREDITS\t\t\t%.1f\n", yylval.credits);
-    } else {
-        yyerror("Expected course credits.");
-        exit(1);
-    }
-
-    // Parse course degree
-    skipWhiteSpace();
-    if (yylex() == DEGREE) {
-        printf("DEGREE\t\t\t%s\n", yylval.degree);
-    } else {
-        yyerror("Expected course degree.");
-        exit(1);
-    }
-
-    // Parse course school
-    skipWhiteSpace();
-    if (yylex() == SCHOOL) {
-        printf("SCHOOL\t\t\t%s\n", yylval.school);
-    } else {
-        yyerror("Expected course school.");
-        exit(1);
-    }
-
-    // Parse course elective
-    skipWhiteSpace();
-    if (yylex() == ELECT) {
-        printf("ELECT\t\t\t%s\n", yytext);
-    }
-
-    // Skip any remaining white space
-    skipWhiteSpace();
-}
-
-// Function to parse a list of courses
-void parseCourseList() {
-    while (1) {
-        skipWhiteSpace();
-        int token = yylex();
-        if (token == COURSES) {
-            parseCourse();
-        } else {
-            break; // End of course list
-        }
-    }
-}
-
-// Function to parse the input
-int parseInput(const char* filename) {
-    extern FILE* yyin;
-    yyin = fopen(filename, "r");
-    if (!yyin) {
-        fprintf(stderr, "Error opening input file\n");
+int elective() {
+    if (lookahead == ELECT)
+    {
+        match(ELECT);
         return 1;
     }
+    return 0;
+}
 
-    printf("TOKEN\t\t\tLEXEME\t\t\tSEMANTIC VALUE\n");
-    printf("---------------------------------------------------------------\n");
 
-    parseCourseList();
+int main(int argc, char** argv)
+{
+    extern FILE* yyin;
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <input-file-name>\n", argv[0]);
+        return 1;
+    }
+    yyin = fopen(argv[1], "r");
+    if (yyin == NULL) {
+        fprintf(stderr, "failed to open %s\n", argv[1]);
+        return 2;
+    }
+
+    parse();
 
     fclose(yyin);
     return 0;
 }
 
-int main(int argc, char** argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <input file name>\n", argv[0]);
-        return 1;
-    }
-
-    if (parseInput(argv[1]) == 0) {
-        printf("Parsing completed successfully.\n");
-        return 0;
-    } else {
-        fprintf(stderr, "Parsing failed.\n");
-        return 1;
-    }
+void errorMsg(const char* s)
+{
+    extern int yylineno;
+    fprintf(stderr, "line %d: %s\n", yylineno, s);
 }
