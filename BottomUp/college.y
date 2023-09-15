@@ -16,18 +16,21 @@
 %union {
    struct electiveData eD;
    char *name;
+   double credits_of_elective_courses;
+   char *school;
+   int electivee;
 }
 
 %token <name> NAME
+%token <credits_of_elective_courses> CREDITS
+%token <school> SCHOOL
 %type <eD> course_list
 %type <eD> course
-%type <int> elective
+%type <electivee> elective
 
 %token COURSES
 %token NUM
-%token CREDITS
 %token DEGREE
-%token SCHOOL
 %token ELECT
 
 
