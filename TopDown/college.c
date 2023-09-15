@@ -94,14 +94,12 @@ struct electiveData course()
 
     if (lookahead == NAME)
     {   
-        printf("\n NAME %s\n", lexicalValue.name );
         tempName = strdup(lexicalValue.name); // Use strdup to allocate memory
         match(NAME);
     }
 
     if (lookahead == CREDITS)
     {
-        printf("\n Credits= %.2f\n", lexicalValue.credits_of_elective_courses );
         tempCredits = lexicalValue.credits_of_elective_courses;
         match(CREDITS);
     }
@@ -111,7 +109,6 @@ struct electiveData course()
 
     if (lookahead == SCHOOL)
     {
-        printf("\n SCHOOL %s\n", lexicalValue.school );
         tempSchool = strdup(lexicalValue.school); // Use strdup to allocate memory
         match(SCHOOL);
     }
@@ -122,7 +119,7 @@ struct electiveData course()
     {
         insideED.sum_elective_courses = 1;
         insideED.totalCredits = tempCredits;
-        if (tempCredits >= 3) {
+        if (lexicalValue.credits_of_elective_courses >= 3.0) {
             insideED.course_names_of_3e[0] = strdup(tempName);
             insideED.school_names_of_3e[0] = strdup(tempSchool);
             insideED.arr_length = 1;

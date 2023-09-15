@@ -22,3 +22,6 @@ clean:
 run:
 	./college.exe input.txt
 
+run2:
+	./college.exe input2.txt
+
