@@ -12,10 +12,10 @@ int line = 1;
 
 %%
 \<courses\>  { return COURSES; }
-[0-9]{5}     { yylval.num = atoi(yytext); return NUM; }
+[0-9]{5}     { return NUM; }
 \"[^\"]+\"   { strcpy(yylval.name, yytext); return NAME; }
 [0-5](\.[0-9]+)?|6 { yylval.credits_of_elective_courses = atof(yytext); return CREDITS; }
-B\.Sc\.|M\.Sc\. { strcpy(yylval.degree, yytext); return DEGREE; }
+B\.Sc\.|M\.Sc\. { return DEGREE; }
 Software|Electrical|Mechanical|Management|Biomedical { strcpy(yylval.school, yytext); return SCHOOL; }
 Elective|elective { yylval.electivee = 1; return ELECT; }
 [\t\r ]+    { /* skip white space */ }

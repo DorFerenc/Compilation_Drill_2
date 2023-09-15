@@ -831,7 +831,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 15 "college.lex"
-{ yylval.num = atoi(yytext); return NUM; }
+{ return NUM; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
@@ -847,7 +847,7 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 18 "college.lex"
-{ strcpy(yylval.degree, yytext); return DEGREE; }
+{ return DEGREE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP

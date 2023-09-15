@@ -1,5 +1,7 @@
 %code {
 	#include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
 	extern int yylex (void);
 	void yyerror (const char *s);
 }
@@ -42,7 +44,7 @@
             printf("The elective courses with 3 credits or more are:\n");
             printf("COURSE \t \t \t SCHOOL\n");
             printf("----------------------------------\n");
-            for (int i = 0; i < eD.arr_length; i++)
+            for (int i = 0; i < $2.arr_length; i++)
             {
                 printf("%s \t \t %s \n", $2.course_names_of_3e[i], $2.school_names_of_3e[i]);
             }
@@ -64,16 +66,16 @@
             $$.sum_elective_courses = 0;
             $$.totalCredits = 0;
             $$.arr_length = -1;
-            $$.course_names_of_3e = {0};
-            $$.school_names_of_3e = {0};
+            $$.course_names_of_3e[0] = NULL;
+            $$.school_names_of_3e[0] = NULL;
 		};
 	course: NUM NAME CREDITS DEGREE SCHOOL elective
 		{ 
             $$.sum_elective_courses = 0;
             $$.totalCredits = 0;
             $$.arr_length = -1;
-            $$.course_names_of_3e = {0};
-            $$.school_names_of_3e = {0};
+            $$.course_names_of_3e[0] = NULL;
+            $$.school_names_of_3e[0] = NULL;
 
             double tempCredits = 0.0;
             char* tempName;
@@ -94,12 +96,13 @@
                 }
             }
 		};
-	elective: ELECT | %empty 
+	elective: ELECT
     {
-        if ($1 == 1)
-            $$ = 1;
-        else
-            $$ = 0;
+        $$ = 1;
+    }
+    |  %empty 
+    {
+        $$ = 0;
     };
 %%
 
