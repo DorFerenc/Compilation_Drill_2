@@ -17,8 +17,8 @@
    struct electiveData eD;
 }
 
-%type <electiveData> course_list
-%type <electiveData> course
+%type <eD> course_list
+%type <eD> course
 %type <int> elective
 
 %token COURSES
@@ -33,7 +33,16 @@
 %%
 	input: COURSES course_list
 		{ 
-            
+            printf("There are %d elective courses\n", $2.sum_elective_courses);
+            printf("The total number of credits of the elective courses is %.1f\n", $2.totalCredits);
+            printf("The elective courses with 3 credits or more are:\n");
+            printf("COURSE \t \t \t SCHOOL\n");
+            printf("----------------------------------\n");
+            for (int i = 0; i < eD.arr_length; i++)
+            {
+                printf("%s \t \t %s \n", $2.course_names_of_3e[i], $2.school_names_of_3e[i]);
+            }
+            printf("\n");
 		};
 	course_list: course_list course
 		{
