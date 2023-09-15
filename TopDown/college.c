@@ -46,7 +46,7 @@ void start()
     printf("The elective courses with 3 credits or more are:\n");
     printf("COURSE \t \t \t SCHOOL\n");
     printf("----------------------------------\n");
-    for (int i = 0; i < eD.arr_length; i++)
+    for (int i = 0; i <= eD.arr_length; i++)
     {
         printf("%s \t \t %s \n", eD.course_names_of_3e[i], eD.school_names_of_3e[i]);
     }
@@ -119,7 +119,7 @@ struct electiveData course()
     {
         insideED.sum_elective_courses = 1;
         insideED.totalCredits = tempCredits;
-        if (lexicalValue.credits_of_elective_courses >= 3.0) {
+        if (tempCredits >= 3.0) {
             insideED.course_names_of_3e[0] = strdup(tempName);
             insideED.school_names_of_3e[0] = strdup(tempSchool);
             insideED.arr_length = 1;

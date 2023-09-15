@@ -1,9 +1,9 @@
 <courses>
 10006 "Intro to CompSci" 3.5 B.Sc. Software
 10117 "Data Structures" 3 B.Sc. Software
-40120 "Databases" 5.0 B.Sc. Management Elective
-60165 "Autonomous vehicles" 1.0 M.Sc. Mechanical elective
+40120 "Databases" 2.0 B.Sc. Management Elective
 20006 "Yoyo" 3.5 B.Sc. Software
 20117 "Games" 3 B.Sc. Software
 20120 "Ships" 5.0 B.Sc. Management Elective
 20165 "Planes" 5.0 M.Sc. Mechanical Elective
+60165 "Autonomous vehicles" 1.0 M.Sc. Mechanical elective

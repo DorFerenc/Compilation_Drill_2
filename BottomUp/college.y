@@ -81,9 +81,9 @@
             char* tempName;
             char* tempSchool;
 
-            tempName = strdup($2);
+            tempName = strdup($2); // Use strdup to allocate memory
             tempCredits = $3;
-            tempSchool = strdup($5);
+            tempSchool = strdup($5); // Use strdup to allocate memory
 
             if ($6 == 1) 
             {
