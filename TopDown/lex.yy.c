@@ -553,8 +553,9 @@ union {
 } yylval;
 
 int line = 1;
-#line 557 "lex.yy.c"
+
 #line 558 "lex.yy.c"
+#line 559 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -771,9 +772,9 @@ YY_DECL
 		}
 
 	{
-#line 30 "college.lex"
+#line 31 "college.lex"
 
-#line 777 "lex.yy.c"
+#line 778 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -842,62 +843,62 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "college.lex"
+#line 32 "college.lex"
 { return COURSES; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "college.lex"
+#line 33 "college.lex"
 { yylval.num = atoi(yytext); return NUM; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 33 "college.lex"
+#line 34 "college.lex"
 { strcpy(yylval.name, yytext); strcpy(lexicalValue.name, yytext); return NAME; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 34 "college.lex"
+#line 35 "college.lex"
 { yylval.credits = atof(yytext); lexicalValue.credits_of_elective_courses = atof(yytext); return CREDITS; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 35 "college.lex"
+#line 36 "college.lex"
 { strcpy(yylval.degree, yytext); return DEGREE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 36 "college.lex"
+#line 37 "college.lex"
 { strcpy(yylval.school, yytext); strcpy(lexicalValue.school, yytext); return SCHOOL; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 37 "college.lex"
+#line 38 "college.lex"
 { lexicalValue.is_elective = 1; return ELECT; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 38 "college.lex"
+#line 39 "college.lex"
 { /* skip white space */ }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 39 "college.lex"
+#line 40 "college.lex"
 { line += yyleng; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 40 "college.lex"
+#line 41 "college.lex"
 { fprintf(stderr, "***Error on line: %d, unrecognized token: %s\n", line, yytext); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 42 "college.lex"
+#line 43 "college.lex"
 ECHO;
 	YY_BREAK
-#line 901 "lex.yy.c"
+#line 902 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1914,7 +1915,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "college.lex"
+#line 43 "college.lex"
 
 
 /* useful for error messages */

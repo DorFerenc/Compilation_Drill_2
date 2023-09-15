@@ -22,6 +22,7 @@ union {
 } yylval;
 
 int line = 1;
+
 %}
 
 %option noyywrap

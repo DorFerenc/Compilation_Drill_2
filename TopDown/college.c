@@ -48,7 +48,7 @@ void start()
     printf("----------------------------------\n");
     for (int i = 0; i < eD.arr_length; i++)
     {
-        printf("%s \t \t \t %s \n", eD.course_names_of_3e[i], eD.school_names_of_3e[i]);
+        printf("%s \t \t %s \n", eD.course_names_of_3e[i], eD.school_names_of_3e[i]);
     }
     printf("\n");
 }
@@ -66,7 +66,7 @@ void parse()
 
 struct electiveData course_list()
 {
-    struct electiveData finalED = { 0, 0.0, 0, {0}, {0} };  // Initialize arrays to 0
+    struct electiveData finalED = { 0, 0.0, -1, {0}, {0} };  // Initialize arrays to 0
     while (lookahead == NUM) // while there is another couse number
     {
         struct electiveData tempED = course();
@@ -84,9 +84,10 @@ struct electiveData course_list()
 struct electiveData course()
 {
     struct electiveData insideED = { 0, 0.0, 0, {0}, {0} };
+
     double tempCredits = 0.0;
-    char tempName[100] = {0};
-    char tempSchool[100] = {0};
+    char* tempName;
+    char* tempSchool;
 
     if (lookahead == NUM)
         match(NUM);
@@ -94,12 +95,7 @@ struct electiveData course()
     if (lookahead == NAME)
     {   
         printf("\n NAME %s\n", lexicalValue.name );
-        // tempName = strdup(lexicalValue.name); // Use strdup to allocate memory
-        // if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
-        // {
-        //     printf("\nFOUND NAME %s\n", lexicalValue.name );
-        //     insideED.course_names_of_3e[0] = strdup(lexicalValue.name); // Use strdup to allocate memory
-        // }
+        tempName = strdup(lexicalValue.name); // Use strdup to allocate memory
         match(NAME);
     }
 
@@ -107,9 +103,6 @@ struct electiveData course()
     {
         printf("\n Credits= %.2f\n", lexicalValue.credits_of_elective_courses );
         tempCredits = lexicalValue.credits_of_elective_courses;
-
-        // if (lexicalValue.is_elective == 1)
-        //     insideED.totalCredits += lexicalValue.credits_of_elective_courses;
         match(CREDITS);
     }
 
@@ -119,10 +112,7 @@ struct electiveData course()
     if (lookahead == SCHOOL)
     {
         printf("\n SCHOOL %s\n", lexicalValue.school );
-        // tempSchool = strdup(lexicalValue.school); // Use strdup to allocate memory
-        // if (lexicalValue.is_elective == 1 && lexicalValue.credits_of_elective_courses >= 3)
-        //     insideED.school_names_of_3e[0] = strdup(lexicalValue.school); // Use strdup to allocate memory
-
+        tempSchool = strdup(lexicalValue.school); // Use strdup to allocate memory
         match(SCHOOL);
     }
 
@@ -130,8 +120,13 @@ struct electiveData course()
 
     if (e == 1) 
     {
+        insideED.sum_elective_courses = 1;
         insideED.totalCredits = tempCredits;
-
+        if (lexicalValue.credits_of_elective_courses >= 3) {
+            insideED.course_names_of_3e[0] = strdup(tempName);
+            insideED.school_names_of_3e[0] = strdup(tempSchool);
+            insideED.arr_length = 1;
+        }
     }
     
     return insideED;
