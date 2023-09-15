@@ -122,7 +122,7 @@ struct electiveData course()
     {
         insideED.sum_elective_courses = 1;
         insideED.totalCredits = tempCredits;
-        if (lexicalValue.credits_of_elective_courses >= 3) {
+        if (tempCredits >= 3) {
             insideED.course_names_of_3e[0] = strdup(tempName);
             insideED.school_names_of_3e[0] = strdup(tempSchool);
             insideED.arr_length = 1;
