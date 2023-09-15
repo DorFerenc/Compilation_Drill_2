@@ -84,9 +84,9 @@ union YYSTYPE
 #line 18 "college.y"
 
    struct electiveData eD;
-   char *name;
+   char name[100];
    double credits_of_elective_courses;
-   char *school;
+   char school[100];
    int electivee;
 
 #line 93 "college.tab.h"

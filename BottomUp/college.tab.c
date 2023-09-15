@@ -1121,9 +1121,9 @@ yyreduce:
             char* tempName;
             char* tempSchool;
 
-            tempName = strdup((yyvsp[-4].name).name); // Use strdup to allocate memory
-            tempCredits = (yyvsp[-3].credits_of_elective_courses).credits_of_elective_courses;
-            tempSchool = strdup((yyvsp[-1].school).school); // Use strdup to allocate memory
+            tempName = strdup((yyvsp[-4].name));
+            tempCredits = (yyvsp[-3].credits_of_elective_courses);
+            tempSchool = strdup((yyvsp[-1].school));
 
             if ((yyvsp[0].electivee) == 1) 
             {

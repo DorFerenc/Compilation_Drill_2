@@ -17,9 +17,9 @@
 }
 %union {
    struct electiveData eD;
-   char *name;
+   char name[100];
    double credits_of_elective_courses;
-   char *school;
+   char school[100];
    int electivee;
 }
 
@@ -81,9 +81,9 @@
             char* tempName;
             char* tempSchool;
 
-            tempName = strdup($2.name); // Use strdup to allocate memory
-            tempCredits = $3.credits_of_elective_courses;
-            tempSchool = strdup($5.school); // Use strdup to allocate memory
+            tempName = strdup($2);
+            tempCredits = $3;
+            tempSchool = strdup($5);
 
             if ($6 == 1) 
             {
