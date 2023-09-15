@@ -44,7 +44,7 @@
             printf("The elective courses with 3 credits or more are:\n");
             printf("COURSE \t \t \t SCHOOL\n");
             printf("----------------------------------\n");
-            for (int i = 0; i < $2.arr_length; i++)
+            for (int i = 0; i <= $2.arr_length; i++)
             {
                 printf("%s \t \t %s \n", $2.course_names_of_3e[i], $2.school_names_of_3e[i]);
             }
@@ -64,7 +64,7 @@
 	course_list: %empty
 		{
             $$.sum_elective_courses = 0;
-            $$.totalCredits = 0;
+            $$.totalCredits = 0.0;
             $$.arr_length = -1;
             $$.course_names_of_3e[0] = NULL;
             $$.school_names_of_3e[0] = NULL;
@@ -72,26 +72,18 @@
 	course: NUM NAME CREDITS DEGREE SCHOOL elective
 		{ 
             $$.sum_elective_courses = 0;
-            $$.totalCredits = 0;
-            $$.arr_length = -1;
+            $$.totalCredits = 0.0;
+            $$.arr_length = 0;
             $$.course_names_of_3e[0] = NULL;
             $$.school_names_of_3e[0] = NULL;
-
-            double tempCredits = 0.0;
-            char* tempName;
-            char* tempSchool;
-
-            tempName = strdup($2); // Use strdup to allocate memory
-            tempCredits = $3;
-            tempSchool = strdup($5); // Use strdup to allocate memory
 
             if ($6 == 1) 
             {
                 $$.sum_elective_courses = 1;
-                $$.totalCredits = tempCredits;
-                if (tempCredits >= 3) {
-                    $$.course_names_of_3e[0] = strdup(tempName);
-                    $$.school_names_of_3e[0] = strdup(tempSchool);
+                $$.totalCredits = $3;
+                if ($3 >= 3) {
+                    $$.course_names_of_3e[0] = strdup($2);
+                    $$.school_names_of_3e[0] = strdup($5);
                     $$.arr_length = 1;
                 }
             }
