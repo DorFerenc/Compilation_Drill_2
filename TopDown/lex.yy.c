@@ -1917,54 +1917,14 @@ void yyfree (void * ptr )
 #line 42 "college.lex"
 
 
-int main(int argc, char **argv) {
-    extern FILE *yyin;
-    int token;
-
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <input file name>\n", argv[0]);
-        exit(1);
-    }
-
-    yyin = fopen(argv[1], "r");
-    if (!yyin) {
-        fprintf(stderr, "Error opening input.txt file\n");
-        return 1;
-    }
-
-    printf("TOKEN\t\t\tLEXEME\t\t\tSEMANTIC VALUE\n");
-    printf("---------------------------------------------------------------\n");
-
-    while ((token = yylex()) != 0) {
-        switch (token) {
-            case COURSES:
-                printf("COURSES\t\t\t%s\n", yytext);
-                break;
-            case NUM:
-                printf("NUM\t\t\t%d\n", yylval.num);
-                break;
-            case NAME:
-                printf("NAME\t\t\t%s\n", yytext);
-                break;
-            case CREDITS:
-                printf("CREDITS\t\t\t%s\t\t\t%.1f\n", yytext, yylval.credits);
-                break;
-            case DEGREE:
-                printf("DEGREE\t\t\t%s\n", yytext);
-                break;
-            case SCHOOL:
-                printf("SCHOOL\t\t\t%s\n", yytext);
-                break;
-            case ELECT:
-                printf("ELECT\t\t\t%s\n", yytext);
-                break;
-            default:
-                fprintf(stderr, "error ...\n");
-                exit(1);
-        }
-    }
-
-    fclose(yyin);
-    exit(0);
+/* useful for error messages */
+char *token_name(enum token token)
+{
+    static char *names[] = {
+         "EOF", "COURSES", "NUM", "NAME", "CREDITS",
+         "DEGREE", "SCHOOL", "ELECT" };
+    
+    return names[token];
 }
+
 

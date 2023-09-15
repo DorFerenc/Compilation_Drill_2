@@ -18,3 +18,7 @@ lex.yy.c: college.lex
 	
 clean:
 	rm college.o lex.yy.o college.exe
+
+run:
+	./college.exe input.txt
+
